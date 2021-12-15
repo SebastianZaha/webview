@@ -80,6 +80,12 @@ type WebView interface {
 	// SetSize updates native window size. See Hint constants.
 	SetSize(w int, h int, hint Hint)
 
+	// Show shows the native window.
+	Show()
+
+	// Hide hides the native window.
+	Hide()
+
 	// Navigate navigates webview to the given URL. URL may be a properly encoded data.
 	// URI. Examples:
 	// w.Navigate("https://github.com/webview/webview")
@@ -178,6 +184,14 @@ func (w *webview) SetTitle(title string) {
 	s := C.CString(title)
 	defer C.free(unsafe.Pointer(s))
 	C.webview_set_title(w.w, s)
+}
+
+func (w *webview) Hide() {
+	C.webview_hide(w.w)
+}
+
+func (w *webview) Show() {
+	C.webview_show(w.w)
 }
 
 func (w *webview) SetSize(width int, height int, hint Hint) {
