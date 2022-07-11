@@ -542,7 +542,9 @@ public:
   }
 
   void set_user_agent(const std::string &agent) {
-    // Not yet implemented
+   WebKitSettings *settings =
+      webkit_web_view_get_settings(WEBKIT_WEB_VIEW(m_webview));
+    webkit_settings_set_user_agent(settings, agent.c_str());
   }
 
 private:

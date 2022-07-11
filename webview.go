@@ -110,6 +110,9 @@ type WebView interface {
 	// f must be a function
 	// f must return either value and error or just error
 	Bind(name string, f interface{}) error
+
+	// SetUserAgent overrides the default user agent for all subsequent requests
+	SetUserAgent(ua string)
 }
 
 type webview struct {
@@ -194,6 +197,12 @@ func (w *webview) Eval(js string) {
 	s := C.CString(js)
 	defer C.free(unsafe.Pointer(s))
 	C.webview_eval(w.w, s)
+}
+
+func (w *webview) SetUserAgent(ua string) {
+	s := C.CString(ua)
+	defer C.free(unsafe.Pointer(s))
+	C.webview_set_user_agent(w.w, s)
 }
 
 func (w *webview) Dispatch(f func()) {
